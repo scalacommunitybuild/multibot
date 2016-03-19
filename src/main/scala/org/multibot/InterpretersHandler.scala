@@ -83,7 +83,7 @@ case class InterpretersHandler(cache: InterpretersCache, http: HttpHandler, send
       case e => Some("unexpected: " + e)
     }
 
-    case Cmd("i>" :: m :: Nil) => http.respond(sendLines).respondJSON(:/("www.tryidris.org") / "interpret" << compact(render("expression", m))) {
+    case Cmd("i>" :: m :: Nil) => http.respond(sendLines).respondJSON(:/("https://tryidris.herokuapp.com") / "interpret" << compact(render("expression", m))) {
       case JArray(List(JArray(List(JString(":return"), JArray(List(JString(_), JString(output), _*)), _*)), _*)) => Some(output)
       case e => Some("unexpected: " + e)
     }
