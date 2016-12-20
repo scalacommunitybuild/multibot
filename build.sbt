@@ -18,16 +18,16 @@ publishArtifact in(Compile, packageDoc) := false
 
 enablePlugins(JavaAppPackaging)
 
-scalaVersion := "2.11.8"
+scalaVersion := "2.12.1"
 
 resolvers += Resolver.sonatypeRepo("snapshots")
 
 libraryDependencies ++= {
-  val scalazVersion = "7.2.1"
-  val scalazStreamVersion = "0.8a"
-  val shapelessVersion = "2.3.0"
-  val monocleVersion = "1.3.0-SNAPSHOT"
-  val spireVersion = "0.11.0"
+  val scalazVersion = "7.2.8"
+  val scalazStreamVersion = "0.8.6a"
+  val shapelessVersion = "2.3.2"
+  val monocleVersion = "1.4.0-M1"
+  val spireVersion = "0.13.0"
   Seq(
     "org.scalaz" %% "scalaz-iteratee" % scalazVersion,
     "org.scalaz" %% "scalaz-effect" % scalazVersion,
@@ -48,22 +48,22 @@ libraryDependencies ++= Seq(
   "org.slf4j" % "slf4j-simple" % "1.7.10",
   "org.scala-lang" % "scala-compiler" % scalaVersion.value,
   "org.scala-lang" % "scala-reflect" % scalaVersion.value,
-  "net.databinder" %% "dispatch-http" % "0.8.10",
-  "org.json4s" %% "json4s-native" % "3.2.10",
+  "org.http4s" %% "http4s-client" % "0.15.0a",
+  "org.json4s" %% "json4s-native" % "3.5.0",
   "com.google.guava" % "guava" % "18.0"
 )
 
 autoCompilerPlugins := true
 
-scalacOptions ++= Seq("-feature:false", "-language:_", "-deprecation", "-Xexperimental", "-YclasspathImpl:flat")
+scalacOptions ++= Seq("-feature:false", "-language:_", "-deprecation", "-Xexperimental")
 
-addCompilerPlugin("org.psywerx.hairyfotr" %% "linter" % "0.1.13")
+addCompilerPlugin("org.psywerx.hairyfotr" %% "linter" % "0.1.17")
 
-libraryDependencies += "org.psywerx.hairyfotr" %% "linter" % "0.1.13"
+libraryDependencies += "org.psywerx.hairyfotr" %% "linter" % "0.1.17"
 
 //scalacOptions += "-P:linter:disable:OLOLOUseHypot+CloseSourceFile+OptionOfOption"
 
-addCompilerPlugin("org.brianmckenna" %% "wartremover" % "0.14")
+//addCompilerPlugin("org.brianmckenna" %% "wartremover" % "0.14")
 
 //libraryDependencies += "org.brianmckenna" %% "wartremover" % "0.14"
 //
@@ -77,7 +77,7 @@ buildInfoKeys := Seq[BuildInfoKey](name, version, scalaVersion, sbtVersion, scal
 
 buildInfoPackage := "org.multibot"
 
-addCompilerPlugin("org.spire-math" %% "kind-projector" % "0.7.1")
+addCompilerPlugin("org.spire-math" %% "kind-projector" % "0.9.3")
 
-libraryDependencies += "org.spire-math" %% "kind-projector" % "0.7.1"
+libraryDependencies += "org.spire-math" %% "kind-projector" % "0.9.3"
 

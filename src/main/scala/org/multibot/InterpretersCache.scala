@@ -2,7 +2,7 @@ package org.multibot
 
 import java.io.{ByteArrayOutputStream, PrintStream}
 
-import com.google.common.cache.{CacheBuilder, CacheLoader, RemovalListener, RemovalNotification}
+import com.google.common.cache._
 
 case class InterpretersCache(preload: List[String]) {
   private val stdOut = System.out
@@ -38,10 +38,11 @@ case class InterpretersCache(preload: List[String]) {
       settings.deprecation.value = true
       settings.feature.value = false
       settings.Yreploutdir.value = ""
+      settings.YpartialUnification.value = true
       val si = new IMain(settings)
 
       val imports = List(
-        "scalaz._", "Scalaz._", "reflect.runtime.universe.reify", "org.scalacheck.Prop._", "monocle.syntax._", "monocle.macros._"
+        "scalaz._", "Scalaz._", "reflect.runtime.universe.reify", "org.scalacheck.Prop._", "scala.concurrent.ExecutionContext.Implicits.global"
 //        , "effectful._"
       )
       si.beQuietDuring {
@@ -68,7 +69,7 @@ case class InterpretersCache(preload: List[String]) {
     r
   }
 
-  private def interpreterCache[K <: AnyRef, V <: AnyRef](loader: CacheLoader[K, V]) = {
+  private def interpreterCache[K <: AnyRef, V <: AnyRef](loader: CacheLoader[K, V]): LoadingCache[K, V] = {
     CacheBuilder.newBuilder().softValues().maximumSize(preload.size + 1).removalListener(new RemovalListener[K, V] {
       override def onRemoval(notification: RemovalNotification[K, V]) = println(s"expired $notification")
     }).build(loader)
