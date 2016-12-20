@@ -40,9 +40,8 @@ object ScriptSecurityManager extends SecurityManager {
     val allowedMethods = Seq(
       "accessDeclaredMembers", "suppressAccessChecks", "createClassLoader",
       "accessClassInPackage.sun.reflect", "getStackTrace", "getClassLoader",
-      "setIO", "getProtectionDomain", "setContextClassLoader", "getClassLoader", "accessClassInPackage.sun.misc"
+      "setIO", "getProtectionDomain", "setContextClassLoader", "getClassLoader", "accessClassInPackage.sun.misc", "accessClassInPackage.sun.util.resources.en"
     ).contains(perm.getName)
-    val getPass = perm.getName == s"getenv.${org.multibot.Multibottest.GitterPassEnvName}"
     val getenv = perm.getName.startsWith("getenv")
     val file = perm.isInstanceOf[FilePermission]
     val property = perm.isInstanceOf[PropertyPermission]
@@ -65,11 +64,11 @@ object ScriptSecurityManager extends SecurityManager {
         .contains(name)
     }
 
-    val allow = readMissingFile || readClass || (read && !file) || allowedMethods || getenv ||
+    val allow = readMissingFile || readClass || (read && !file) || allowedMethods ||
       (property && readWrite) || (security && perm.getName.startsWith("getProperty.")) ||
       (net && perm.getName.startsWith("specifyStreamHandler")) ||
       allowedClass(new Throwable().getStackTrace)
-    if (!allow || getPass) {
+    if (!allow || getenv) {
       val exception = new SecurityException(perm.toString)
       exception.printStackTrace()
       throw exception
