@@ -48,7 +48,7 @@ object ScriptSecurityManager extends SecurityManager {
     val security = perm.isInstanceOf[SecurityPermission]
     val net = perm.isInstanceOf[NetPermission]
 
-    val notExistingFile = !new File(perm.getName).exists()
+    def notExistingFile = !new File(perm.getName).exists()
 
     val allowedFiles =
       Seq( """.*\.class""", """.*\.jar""", """.*classes.*""", """.*\.properties""",
