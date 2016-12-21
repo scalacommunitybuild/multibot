@@ -39,7 +39,7 @@ object ScriptSecurityManager extends SecurityManager {
     val readWrite = perm.getActions == "read,write"
     val allowedMethods = Seq(
       "accessDeclaredMembers", "suppressAccessChecks", "createClassLoader",
-      "accessClassInPackage.sun.reflect", "getStackTrace", "getClassLoader",
+      "accessClassInPackage.sun.reflect", "getStackTrace", "getClassLoader", "closeClassLoader",
       "setIO", "getProtectionDomain", "setContextClassLoader", "getClassLoader", "accessClassInPackage.sun.misc", "accessClassInPackage.sun.util.resources.en"
     ).contains(perm.getName)
     val getenv = perm.getName.startsWith("getenv")
