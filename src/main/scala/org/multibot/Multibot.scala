@@ -19,7 +19,7 @@ case class Multibot(
    cache: InterpretersCache,
    botname: String,
    channels: List[String],
-   settings: Builder[PircBotX] => Builder[PircBotX] = identity) {
+   settings: Builder => Builder = identity) {
 
   val LAMBDABOT = "lambdabot"
   val ADMINS = List("imeredith", "lopex", "tpolecat", "OlegYch")
@@ -31,41 +31,40 @@ case class Multibot(
     }
   }
 
-  private val builder = settings(new Builder[PircBotX].
+  private val builder = settings(new Builder().
     setName(botname).setEncoding(Charset.forName("UTF-8")).setAutoNickChange(true).setAutoReconnect(true)
-    .setServerHostname("irc.freenode.net")
     .setShutdownHookEnabled(false)
     .setAutoSplitMessage(true)
-    .addListener(new ListenerAdapter[PircBotX] {
-    def handle(_e: (String, String, GenericMessageEvent[PircBotX])) = {
+    .addListener(new ListenerAdapter {
+    def handle(_e: (String, String, GenericMessageEvent)) = {
       val (channel, sender, e) = _e
       def sendLines(channel: String, message: String) = {
         println(message)
 
         outputSanitizer(message).foreach(m => {
             if (channel == sender) e.respond(m)
-            else e.getBot.getUserChannelDao.getChannel(channel).send().message(m)
+            else e.getBot[PircBotX].getUserChannelDao.getChannel(channel).send().message(m)
         })
       }
       def interpreters = InterpretersHandler(cache, httpHandler, sendLines, inputSanitizer)
-      def admin = AdminHandler(e.getBot.getNick + ":", ADMINS, _ => (), _ => (), sendLines) //todo
+      def admin = AdminHandler(e.getBot[PircBotX].getNick + ":", ADMINS, _ => (), _ => (), sendLines) //todo
       DieOn.error {
         val msg = Msg(channel, sender, e.getMessage)
         interpreters.serve(msg)
         admin.serve(msg)
       }
     }
-    override def onPrivateMessage(event: PrivateMessageEvent[PircBotX]): Unit = {
+    override def onPrivateMessage(event: PrivateMessageEvent): Unit = {
       super.onPrivateMessage(event)
       handle(event.getUser.getNick, event.getUser.getNick, event)
     }
-    override def onMessage(event: MessageEvent[PircBotX]): Unit = {
+    override def onMessage(event: MessageEvent): Unit = {
       super.onMessage(event)
       handle(event.getChannel.getName, event.getUser.getNick, event)
     }
   }))
-  channels.foreach(builder.addAutoJoinChannel(_))
-  private case object bot extends org.pircbotx.PircBotX(builder.buildConfiguration()) {
+  channels.foreach(builder.addAutoJoinChannel)
+  private object bot extends org.pircbotx.PircBotX(builder.buildConfiguration()) {
     override def startBot(): Unit = {
       try {
         super.startBot()

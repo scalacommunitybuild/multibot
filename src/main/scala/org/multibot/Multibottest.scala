@@ -1,11 +1,14 @@
 package org.multibot
 
+import org.pircbotx.cap.SASLCapHandler
+
 object Multibottest {
-  val GitterPassEnvName = "multibot.gitter.pass"
   val cache = InterpretersCache(List("#scala", "#scalaz", "#dev-ua/scala"))
   val PRODUCTION = Option(System getenv "multibot.production") exists (_.toBoolean)
-  val gitterPass = Option(System getenv GitterPassEnvName).getOrElse(
+  //should be def so that security manager is enabled
+  private def gitterPass = Option(System getenv "multibot.gitter.pass").getOrElse(
     "709182327498f5ee393dbb0bc6e440975fa316e5")
+  private def freenodePass = Option(System getenv "multibot.freenode.pass")
 
   val NUMLINES = 5
 
@@ -29,12 +32,15 @@ object Multibottest {
     inputSanitizer = identity,
     outputSanitizer = ircOutputSanitizer,
     cache = cache,
-    botname = if (PRODUCTION) "multibot_" else "multibot__",
+    botname = if (PRODUCTION) "multibot" else "multibot_test",
     channels = if (PRODUCTION)
       List("#clojure.pl", "#scala.pl", "#scala", "#scalaz", "#scala-fr", "#lift", "#playframework",
         "#bostonpython", "#fp-in-scala", "#CourseraProgfun", "#shapeless", "#akka", "#sbt", "#scala-monocle")
     else
-      List("#multibottest", "#multibottest2")
+      List("#multibottest", "#multibottest2"),
+    settings = _.addServer("irc.freenode.net")
+      .setCapEnabled(freenodePass.nonEmpty)
+      .addCapHandler(new SASLCapHandler("multibot", freenodePass.getOrElse("")))
   )
 
   val gitterMultibot = Multibot(
@@ -43,7 +49,7 @@ object Multibottest {
     cache = cache,
     botname = if (PRODUCTION) "multibot1" else "multibot2",
     channels = if (PRODUCTION) List("#scala/scala", "#sbt/sbt") else List("#OlegYch/multibot"),
-    settings = _.setServerHostname("irc.gitter.im").setServerPassword(gitterPass).
+    settings = _.addServer("irc.gitter.im").setServerPassword(gitterPass).
       setSocketFactory(javax.net.ssl.SSLSocketFactory.getDefault)
   )
 

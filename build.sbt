@@ -23,7 +23,7 @@ scalaVersion := "2.12.1"
 resolvers += Resolver.sonatypeRepo("snapshots")
 
 libraryDependencies ++= {
-  val scalazVersion = "7.2.8"
+  val scalazVersion = "7.2.10"
   val scalazStreamVersion = "0.8.6a"
   val shapelessVersion = "2.3.2"
   val monocleVersion = "1.4.0"
@@ -44,7 +44,7 @@ libraryDependencies ++= {
 }
 
 libraryDependencies ++= Seq(
-  "org.pircbotx" % "pircbotx" % "2.0.1",
+  "org.pircbotx" % "pircbotx" % "2.1",
   "org.slf4j" % "slf4j-simple" % "1.7.10",
   "org.scala-lang" % "scala-compiler" % scalaVersion.value,
   "org.scala-lang" % "scala-reflect" % scalaVersion.value,
