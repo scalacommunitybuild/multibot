@@ -18,12 +18,12 @@ publishArtifact in(Compile, packageDoc) := false
 
 enablePlugins(JavaAppPackaging)
 
-scalaVersion := "2.12.1"
+scalaVersion := "2.12.2"
 
 resolvers += Resolver.sonatypeRepo("snapshots")
 
 libraryDependencies ++= {
-  val scalazVersion = "7.2.10"
+  val scalazVersion = "7.2.11"
   val scalazStreamVersion = "0.8.6a"
   val shapelessVersion = "2.3.2"
   val monocleVersion = "1.4.0"
