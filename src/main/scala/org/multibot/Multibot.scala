@@ -29,6 +29,17 @@ case class Multibot(
       override def run(): Unit = bot.startBot()
       start()
     }
+    new Thread() {
+      override def run(): Unit = {
+        while (true) {
+          Thread.sleep(10000)
+          channels.foreach(c => try bot.sendIRC().joinChannel(c) catch {
+            case e: Throwable => e.printStackTrace()
+          })
+        }
+      }
+      start()
+    }
   }
 
   private val builder = settings(new Builder().
