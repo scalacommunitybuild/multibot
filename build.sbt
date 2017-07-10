@@ -23,11 +23,11 @@ scalaVersion := "2.12.2"
 resolvers += Resolver.sonatypeRepo("snapshots")
 
 libraryDependencies ++= {
-  val scalazVersion = "7.2.11"
-  val scalazStreamVersion = "0.8.6a"
+  val scalazVersion = "7.2.14"
+  val fs2Version = "0.9.6"
   val shapelessVersion = "2.3.2"
   val monocleVersion = "1.4.0"
-  val spireVersion = "0.13.0"
+  val spireVersion = "0.14.1"
   Seq(
     "org.scalaz" %% "scalaz-iteratee" % scalazVersion,
     "org.scalaz" %% "scalaz-effect" % scalazVersion,
@@ -37,8 +37,8 @@ libraryDependencies ++= {
     "com.github.julien-truffaut" %% "monocle-generic" % monocleVersion,
     "com.github.julien-truffaut" %% "monocle-law" % monocleVersion,
     "com.github.julien-truffaut" %% "monocle-macro" % monocleVersion,
-    "org.spire-math" %% "spire" % spireVersion,
-    "org.scalaz.stream" %% "scalaz-stream" % scalazStreamVersion
+    "org.typelevel" %% "spire" % spireVersion
+//    "co.fs2" %% "fs2-io" % fs2Version
 //    "org.pelotom" %% "effectful" % "1.1-SNAPSHOT"
   )
 }
@@ -48,7 +48,6 @@ libraryDependencies ++= Seq(
   "org.slf4j" % "slf4j-simple" % "1.7.10",
   "org.scala-lang" % "scala-compiler" % scalaVersion.value,
   "org.scala-lang" % "scala-reflect" % scalaVersion.value,
-  "org.http4s" %% "http4s-client" % "0.15.0a",
   "org.json4s" %% "json4s-native" % "3.5.0",
   "com.google.guava" % "guava" % "18.0",
   "org.scalactic" %% "scalactic" % "3.0.1",
@@ -79,7 +78,7 @@ buildInfoKeys := Seq[BuildInfoKey](name, version, scalaVersion, sbtVersion, scal
 
 buildInfoPackage := "org.multibot"
 
-addCompilerPlugin("org.spire-math" %% "kind-projector" % "0.9.3")
+addCompilerPlugin("org.spire-math" %% "kind-projector" % "0.9.4")
 
-libraryDependencies += "org.spire-math" %% "kind-projector" % "0.9.3"
+libraryDependencies += "org.spire-math" %% "kind-projector" % "0.9.4"
 
