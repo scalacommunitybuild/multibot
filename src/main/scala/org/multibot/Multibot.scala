@@ -31,11 +31,14 @@ case class Multibot(
     }
     new Thread() {
       override def run(): Unit = {
+        var connected = false
         while (true) {
           Thread.sleep(10000)
-          channels.foreach(c => try bot.sendIRC().joinChannel(c) catch {
-            case e: Throwable => e.printStackTrace()
-          })
+          if (connected) {
+            channels.foreach(c => DieOn.exception(bot.getUserChannelDao.getChannel(c)))
+          } else {
+            connected = channels.forall(c => bot.getUserChannelDao.containsChannel(c))
+          }
         }
       }
       start()

@@ -12,6 +12,14 @@ object DieOn {
     }
   }
 
+  def exception[T](f: => T): T = {
+    try f
+    catch {
+      case e: StackOverflowError => throw e
+      case e: Exception => e.printStackTrace(); sys.exit(-1)
+    }
+  }
+
   def timeout[T](time: Duration)(f: => T): T = {
     import scala.concurrent.ExecutionContext.Implicits.global
     import scala.concurrent._
