@@ -42,7 +42,7 @@ case class InterpretersCache(preload: List[String]) {
       val si = new IMain(settings)
 
       val imports = List(
-        "scalaz._", "Scalaz._", "reflect.runtime.universe.reify", "org.scalacheck.Prop._", "scala.concurrent.ExecutionContext.Implicits.global"
+        "scalaz._", "Scalaz._", "reflect.runtime.universe.reify", "org.scalacheck.Prop.{Exception =>_, _}", "scala.concurrent.ExecutionContext.Implicits.global"
 //        , "effectful._"
       )
       si.beQuietDuring {
