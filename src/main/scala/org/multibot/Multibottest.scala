@@ -34,7 +34,7 @@ object Multibottest {
     cache = cache,
     botname = if (PRODUCTION) "multibot" else "multibot_test",
     channels = if (PRODUCTION)
-      List("#scala", "#scalaz", "#playframework", "#fp-in-scala", "#CourseraProgfun", "#sbt")
+      List("#scala", "#scalaz", "#playframework", "#fp-in-scala", "#CourseraProgfun", "#sbt", "#scala.pl")
     else
       List("#multibottest", "#multibottest2"),
     settings = _.addServer("irc.freenode.net")
