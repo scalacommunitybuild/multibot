@@ -18,7 +18,7 @@ publishArtifact in(Compile, packageDoc) := false
 
 enablePlugins(JavaAppPackaging)
 
-scalaVersion := "2.12.4"
+scalaVersion := "2.12.3"
 
 resolvers += Resolver.sonatypeRepo("snapshots")
 
