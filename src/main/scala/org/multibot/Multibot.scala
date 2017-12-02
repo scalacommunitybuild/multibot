@@ -50,7 +50,7 @@ case class Multibot(
     .setShutdownHookEnabled(false)
     .setAutoSplitMessage(true)
     .addListener(new ListenerAdapter {
-    def handle(_e: (String, String, GenericMessageEvent)) = {
+    def handle(_e: (String, String, GenericMessageEvent)) = try {
       val (channel, sender, e) = _e
       def sendLines(channel: String, message: String) = {
         println(message)
@@ -67,6 +67,10 @@ case class Multibot(
         interpreters.serve(msg)
         admin.serve(msg)
       }
+    } catch {
+      case e: Exception =>
+        e.printStackTrace()
+        throw e
     }
     override def onPrivateMessage(event: PrivateMessageEvent): Unit = {
       super.onPrivateMessage(event)

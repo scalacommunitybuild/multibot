@@ -6,9 +6,9 @@ name := "multibot"
 
 version := "1.0"
 
-fork in run := true
+fork := true
 
-connectInput in run := true
+connectInput := true
 
 mainClass in Compile := Some("org.multibot.Multibottest")
 
@@ -18,7 +18,7 @@ publishArtifact in(Compile, packageDoc) := false
 
 enablePlugins(JavaAppPackaging)
 
-scalaVersion := "2.12.3"
+scalaVersion := "2.12.4"
 
 resolvers += Resolver.sonatypeRepo("snapshots")
 
