@@ -10,7 +10,14 @@ import org.pircbotx.hooks.types.GenericMessageEvent
 
 case class Msg(channel: String, sender: String, message: String)
 object Cmd {
-  def unapply(s: String) = if (s.contains(' ')) Some(s.split(" ", 2).toList) else None
+  def unapply(_s: String): Option[List[String]] = {
+    val edited = """^(\[edit\] )(.*)$""".r
+    val s = _s match {
+      case edited(_, s) => s
+      case s => s
+    }
+    if (s.contains(' ')) Some(s.split(" ", 2).toList) else None
+  }
 }
 
 case class Multibot(

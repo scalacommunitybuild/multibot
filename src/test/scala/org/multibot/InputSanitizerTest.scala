@@ -22,4 +22,16 @@ class InputSanitizerTest extends FlatSpec {
   it should "not be sanitized" in {
     ensureNoSanitization("foo")
   }
+
+  it should "parse cmd" in {
+    "[edit] ! `foo` abc" match {
+      case Cmd("!" :: "`foo` abc" :: Nil) => true
+    }
+    "! `foo abc`" match {
+      case Cmd("!" :: "`foo abc`" :: Nil) => true
+    }
+    "! foo abc" match {
+      case Cmd("!" :: "foo abc" :: Nil) => true
+    }
+  }
 }

@@ -19,7 +19,7 @@ object Multibottest {
       .split("\n")
       .filter(_.nonEmpty)
       .take(NUMLINES)
-      .map(m => s"```$m```")
+      .map(m => s"`$m`")
 
   def ircOutputSanitizer(message: String): Array[String] =
     message
