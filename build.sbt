@@ -1,38 +1,24 @@
-import sbt.Keys._
-import sbt._
-import sbtbuildinfo.Plugin._
-
 name := "multibot"
-
 version := "1.0"
-
 fork := true
-
 connectInput := true
-
 mainClass in Compile := Some("org.multibot.Multibottest")
-
 updateOptions := updateOptions.value.withCachedResolution(true).withLatestSnapshots(false)
-
 publishArtifact in(Compile, packageDoc) := false
-
 enablePlugins(JavaAppPackaging)
-
-scalaVersion := "2.12.4"
-
-resolvers += Resolver.sonatypeRepo("snapshots")
+scalaVersion := "2.12.6"
 
 libraryDependencies ++= {
-  val scalazVersion = "7.2.17"
+  val scalazVersion = "7.2.22"
   val fs2Version = "0.9.6"
-  val shapelessVersion = "2.3.2"
-  val monocleVersion = "1.4.0"
+  val shapelessVersion = "2.3.3"
+  val monocleVersion = "1.5.0"
   val spireVersion = "0.14.1"
   Seq(
     "org.scalaz" %% "scalaz-iteratee" % scalazVersion,
     "org.scalaz" %% "scalaz-effect" % scalazVersion,
-    "org.scalaz" %% "scalaz-scalacheck-binding" % scalazVersion,
     "org.scalaz" %% "scalaz-concurrent" % scalazVersion,
+    "org.scalaz" %% "scalaz-ioeffect" % "2.1.0",
     "com.chuusai" %% "shapeless" % shapelessVersion,
     "com.github.julien-truffaut" %% "monocle-generic" % monocleVersion,
     "com.github.julien-truffaut" %% "monocle-law" % monocleVersion,
@@ -54,13 +40,16 @@ libraryDependencies ++= Seq(
   "org.scalatest" %% "scalatest" % "3.0.1" % "test"
 )
 
-autoCompilerPlugins := true
 
 scalacOptions ++= Seq("-feature:false", "-language:_", "-deprecation", "-Xexperimental")
 
-addCompilerPlugin("org.psywerx.hairyfotr" %% "linter" % "0.1.17")
+autoCompilerPlugins := true
 
+addCompilerPlugin("org.psywerx.hairyfotr" %% "linter" % "0.1.17")
 libraryDependencies += "org.psywerx.hairyfotr" %% "linter" % "0.1.17"
+
+addCompilerPlugin("org.spire-math" %% "kind-projector" % "0.9.6")
+libraryDependencies += "org.spire-math" %% "kind-projector" % "0.9.6"
 
 //scalacOptions += "-P:linter:disable:OLOLOUseHypot+CloseSourceFile+OptionOfOption"
 
@@ -70,15 +59,8 @@ libraryDependencies += "org.psywerx.hairyfotr" %% "linter" % "0.1.17"
 //
 //scalacOptions += "-P:wartremover:only-warn-traverser:org.brianmckenna.wartremover.warts.Unsafe"
 
-buildInfoSettings
-
-sourceGenerators in Compile <+= buildInfo
-
+enablePlugins(BuildInfoPlugin)
 buildInfoKeys := Seq[BuildInfoKey](name, version, scalaVersion, sbtVersion, scalacOptions in(Compile, compile), libraryDependencies in(Compile, compile))
-
 buildInfoPackage := "org.multibot"
 
-addCompilerPlugin("org.spire-math" %% "kind-projector" % "0.9.4")
-
-libraryDependencies += "org.spire-math" %% "kind-projector" % "0.9.4"
 
