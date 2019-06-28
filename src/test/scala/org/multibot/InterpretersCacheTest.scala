@@ -1,8 +1,8 @@
 package org.multibot
 
-import org.scalatest.FunSuite
+import org.scalatest.funsuite.AnyFunSuite
 
-class InterpretersCacheTest extends FunSuite {
+class InterpretersCacheTest extends AnyFunSuite {
 
   test("testScalaInterpreter") {
     val r = InterpretersCache(Nil).scalaInterpreter("hello"){(imain, out) =>

@@ -3,7 +3,7 @@ package org.multibot
 import org.pircbotx.cap.SASLCapHandler
 
 object Multibottest {
-  val cache = InterpretersCache(List("#scala", "#scalaz", "#dev-ua/scala"))
+  val cache = InterpretersCache(List("#scala", "#scalaz", "#scala/scala"))
   val PRODUCTION = Option(System getenv "multibot.production") exists (_.toBoolean)
   //should be def so that security manager is enabled
   private def gitterPass = Option(System getenv "multibot.gitter.pass").getOrElse(

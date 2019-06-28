@@ -1,8 +1,9 @@
 package org.multibot
 
-import org.scalatest.{Assertion, FlatSpec}
+import org.scalatest.Assertion
+import org.scalatest.flatspec.AnyFlatSpec
 
-class InputSanitizerTest extends FlatSpec {
+class InputSanitizerTest extends AnyFlatSpec {
 
   def ensureSanitizedInput(in: String, expected: String): Assertion =
     assert(GitterInputSanitizer.sanitize(in) === expected)

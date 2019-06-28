@@ -4,6 +4,8 @@ import java.io.{ByteArrayOutputStream, PrintStream}
 
 import com.google.common.cache._
 
+import scala.tools.nsc.interpreter.shell.ReplReporterImpl
+
 case class InterpretersCache(preload: List[String]) {
   private val stdOut = System.out
   private val stdErr = System.err
@@ -32,18 +34,19 @@ case class InterpretersCache(preload: List[String]) {
       val settings = new scala.tools.nsc.Settings(null)
       val classpath = sys.props("java.class.path").split(java.io.File.pathSeparatorChar).toList
       val plugins = classpath.map(jar => s"-Xplugin:$jar")
-      val pluginsOptions = plugins //++ List("-P:wartremover:only-warn-traverser:org.brianmckenna.wartremover.warts.Unsafe")
+      val pluginsOptions = plugins
       settings.processArguments(pluginsOptions, true)
       settings.usejavacp.value = true
       settings.deprecation.value = true
       settings.feature.value = false
       settings.Yreploutdir.value = ""
-      settings.YpartialUnification.value = true
-      val si = new IMain(settings)
+      val si = new IMain(settings, new ReplReporterImpl(settings))
 
       val imports = List(
-        "scalaz._", "Scalaz._", "reflect.runtime.universe.reify", "org.scalacheck.Prop.{Exception =>_, _}", "scala.concurrent.ExecutionContext.Implicits.global"
-//        , "effectful._"
+        "scalaz._", "Scalaz._",
+        "reflect.runtime.universe.reify",
+        "org.scalacheck.Prop.{Exception =>_, _}",
+        "scala.concurrent.ExecutionContext.Implicits.global",
       )
       si.beQuietDuring {
         imports.foreach(i => si.interpret(s"import $i"))

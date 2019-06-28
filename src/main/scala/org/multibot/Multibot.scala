@@ -31,7 +31,7 @@ case class Multibot(
   val LAMBDABOT = "lambdabot"
   val ADMINS = List("imeredith", "lopex", "tpolecat", "OlegYch")
   val httpHandler = HttpHandler()
-  def start() {
+  def start(): Unit = {
     new Thread() {
       override def run(): Unit = bot.startBot()
       start()

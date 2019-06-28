@@ -8,8 +8,6 @@ import java.util.PropertyPermission
 /**
   */
 object ScriptSecurityManager extends SecurityManager {
-  System.setProperty("actors.enableForkJoin", false + "")
-
   private val lock = new Object
   @volatile private var sm: Option[SecurityManager] = None
   @volatile private var activated = false
@@ -21,7 +19,7 @@ object ScriptSecurityManager extends SecurityManager {
     } finally deactivate
   }
 
-  override def checkPermission(perm: Permission) {
+  override def checkPermission(perm: Permission): Unit = {
     if (activated) try {
       deactivate
       doChecks(perm)
@@ -34,7 +32,7 @@ object ScriptSecurityManager extends SecurityManager {
     }
   }
 
-  private def doChecks(perm: Permission) {
+  private def doChecks(perm: Permission): Unit = {
     val read = perm.getActions == "read"
     val readWrite = perm.getActions == "read,write"
     val allowedMethods = Seq(
@@ -75,12 +73,12 @@ object ScriptSecurityManager extends SecurityManager {
     }
   }
 
-  private def deactivate {
+  private def deactivate: Unit = {
     activated = false
     if (System.getSecurityManager == this) sm.foreach(System.setSecurityManager)
   }
 
-  private def activate {
+  private def activate: Unit = {
     val manager = System.getSecurityManager
     if (manager != this) {
       sm = Option(manager)
