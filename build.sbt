@@ -9,13 +9,9 @@ enablePlugins(JavaAppPackaging)
 scalaVersion := "2.13.0"
 
 libraryDependencies ++= {
-  val scalazVersion = "7.2.28"
   val shapelessVersion = "2.3.3"
   val monocleVersion = "1.6.0-RC1"
   Seq(
-    "org.scalaz" %% "scalaz-iteratee" % scalazVersion,
-    "org.scalaz" %% "scalaz-effect" % scalazVersion,
-    "org.scalaz" %% "scalaz-concurrent" % scalazVersion,
     "com.chuusai" %% "shapeless" % shapelessVersion,
     "com.github.julien-truffaut" %% "monocle-generic" % monocleVersion,
     "com.github.julien-truffaut" %% "monocle-law" % monocleVersion,
